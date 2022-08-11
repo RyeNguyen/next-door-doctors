@@ -17,10 +17,8 @@ const getCRUD = (req, res) => {
 }
 
 const postCRUD = async (req, res) => {
-    const allUsers = await CRUDService.createNewUser(req.body);
-    return res.render('displayCRUD.ejs', {
-        tableData: allUsers
-    });
+    await CRUDService.createNewUser(req.body);
+    return res.redirect('/display-crud');
 }
 
 const displayCRUD = async (req, res) => {
@@ -42,19 +40,15 @@ const getEditCRUD = async (req, res) => {
 
 const putCRUD = async (req, res) => {
     const data = req.body;
-    const allUsers = await CRUDService.updateUserData(data);
-    return res.render('displayCRUD.ejs', {
-        tableData: allUsers
-    });
+    await CRUDService.updateUserData(data);
+    return res.redirect('/display-crud');
 }
 
 const deleteCRUD = async (req, res) => {
     const id = req.query.id;
     if (id) {
-        const allUsers = await CRUDService.deleteUserById(id);
-        return res.render('displayCRUD.ejs', {
-            tableData: allUsers
-        });
+        await CRUDService.deleteUserById(id);
+        return res.redirect('/display-crud');
     }
     return res.send('User not found!!');
 }
