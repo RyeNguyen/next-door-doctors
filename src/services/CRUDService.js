@@ -18,7 +18,8 @@ const createNewUser = async data => {
                 roleId: data.roleId
             });
 
-            resolve('Create a new user successfully!!');
+            const allUsers = await getAllUsers();
+            resolve(allUsers);
         } catch (error) {
             reject(error);
         }
@@ -40,7 +41,7 @@ const getUserInfoById = userId => {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await db.User.findOne({
-                where: { id: userId },
+                where: { id: userId }
             });
 
             if (user) {
@@ -75,6 +76,23 @@ const updateUserData = (data) => {
     })
 }
 
+const deleteUserById = userId => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await getUserInfoById(userId);
+            if (user) {
+                await user.destroy();
+                const allUsers = await getAllUsers();
+                resolve(allUsers);
+            }
+
+            resolve();
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 const hashUserPassword = password => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -90,9 +108,11 @@ const hashUserPassword = password => {
     })
 }
 
+
 module.exports = {
     createNewUser,
     getAllUsers,
     getUserInfoById,
-    updateUserData
+    updateUserData,
+    deleteUserById
 }

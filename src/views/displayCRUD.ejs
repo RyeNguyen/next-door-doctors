@@ -89,6 +89,7 @@
             padding: 8px 16px;
             border-radius: 10px;
             cursor: pointer;
+            text-decoration: none;
             color: #363535;
         }
 
@@ -230,7 +231,7 @@
                 <td><%= tableData[i].address %></td>
                 <td>
                     <a type="button" href='/edit-crud?id=<%= tableData[i].id %>' class="btn-edit">Edit</a>
-                    <a type="button" class="btn-delete">Delete</a>
+                    <a type="button" href='/delete-crud?id=<%= tableData[i].id %>' class="btn-delete">Delete</a>
                 </td>
             </tr>
         <% } %>

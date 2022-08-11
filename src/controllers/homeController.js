@@ -17,8 +17,10 @@ const getCRUD = (req, res) => {
 }
 
 const postCRUD = async (req, res) => {
-    const message = await CRUDService.createNewUser(req.body);
-    return res.send(message);
+    const allUsers = await CRUDService.createNewUser(req.body);
+    return res.render('displayCRUD.ejs', {
+        tableData: allUsers
+    });
 }
 
 const displayCRUD = async (req, res) => {
@@ -32,9 +34,7 @@ const getEditCRUD = async (req, res) => {
     const userId = req.query.id;
     if (userId) {
         const userData = await CRUDService.getUserInfoById(userId);
-
         //check user data whether it's not found
-
         return res.render('editCRUD.ejs', {userData});
     }
     return res.send('Invalid user id');
@@ -48,11 +48,23 @@ const putCRUD = async (req, res) => {
     });
 }
 
+const deleteCRUD = async (req, res) => {
+    const id = req.query.id;
+    if (id) {
+        const allUsers = await CRUDService.deleteUserById(id);
+        return res.render('displayCRUD.ejs', {
+            tableData: allUsers
+        });
+    }
+    return res.send('User not found!!');
+}
+
 module.exports = {
     getHomepage,
     getCRUD,
     postCRUD,
     displayCRUD,
     getEditCRUD,
-    putCRUD
+    putCRUD,
+    deleteCRUD
 };
