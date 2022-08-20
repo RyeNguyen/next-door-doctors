@@ -29,11 +29,11 @@ const handleUserLogin = (email, password) => {
                     }
                 } else {
                     userData.errCode = 2;
-                    userData.errMessage = `User not found!!`;
+                    userData.message = `User not found!!`;
                 }
             } else {
                 userData.errCode = 1;
-                userData.errMessage = `Your email is not existed in out system. Please try other email!`;
+                userData.message = `Your email is not existed in out system. Please try other email!`;
             }
 
             resolve(userData);
