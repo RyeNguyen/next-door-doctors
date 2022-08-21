@@ -16,10 +16,30 @@ const handleLogin = async (req, res) => {
     return res.status(200).json({
         errCode: userData.errCode,
         message: userData.message,
-        user: userData.user ? userData.user : {}
+        user: userData.user || {}
     });
 }
 
+const handleGetUsers = async (req, res) => {
+    const id = req.body.id;
+    const users = await userService.getUsers(id);
+
+    if (users) {
+        return res.status(200).json({
+            errCode: 0,
+            message: 'OK',
+            users
+        })
+    }
+
+    return res.status(200).json({
+        errCode: 1,
+        message: 'No user(s) found!!',
+        users: users || []
+    })
+}
+
 module.exports = {
-    handleLogin
+    handleLogin,
+    handleGetUsers
 }
