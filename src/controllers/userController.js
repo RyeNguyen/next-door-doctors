@@ -7,7 +7,7 @@ const handleLogin = async (req, res) => {
     if (!email || !password) {
         return res.status(500).json({
             errCode: 1,
-            message: 'Missing input parameter(s)!!'
+            message: 'Missing required parameter(s)!!'
         })
     }
 
@@ -39,7 +39,38 @@ const handleGetUsers = async (req, res) => {
     })
 }
 
+const handleCreateNewUser = async (req, res) => {
+    const message = await userService.createNewUser(req.body);
+    return res.status(200).json(message);
+}
+
+const handleEditUser = async (req, res) => {
+    if (!req.body) {
+        return res.status(200).json({
+            errCode: 1,
+            message: 'Missing required parameter(s)!!',
+            user: {}
+        })
+    }
+    const updatedUser = await userService.updateUserData(req.body);
+    return res.status(200).json(updatedUser);
+}
+
+const handleDeleteUser = async (req, res) => {
+    if (!req.body.id) {
+        return res.status(200).json({
+            errCode: 1,
+            message: 'Missing required parameter(s)!!'
+        })
+    }
+    const message = await userService.deleteUser(req.body.id);
+    return res.status(200).json(message);
+}
+
 module.exports = {
     handleLogin,
-    handleGetUsers
+    handleGetUsers,
+    handleCreateNewUser,
+    handleEditUser,
+    handleDeleteUser
 }
